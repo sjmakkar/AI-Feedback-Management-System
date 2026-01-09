@@ -10,6 +10,7 @@ export default function AdminDashboard() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
+  const [expandedIds, setExpandedIds] = useState(new Set());
 
   const fetchReviews = useCallback(async () => {
     try {
@@ -45,6 +46,15 @@ export default function AdminDashboard() {
     if (rating >= 4) return styles.high;
     if (rating >= 3) return styles.medium;
     return styles.low;
+  };
+
+  const toggleExpand = (id) => {
+    setExpandedIds((prev) => {
+      const s = new Set(prev);
+      if (s.has(id)) s.delete(id);
+      else s.add(id);
+      return s;
+    });
   };
 
   return (
@@ -129,14 +139,58 @@ export default function AdminDashboard() {
                   </td>
                   <td>
                     <p style={{ fontSize: "0.9em", color: "#475569" }}>
-                      {r.ai_summary?.substring(0, 80)}
-                      {r.ai_summary?.length > 80 ? "..." : ""}
+                      {expandedIds.has(r.id)
+                        ? r.ai_summary
+                        : r.ai_summary?.substring(0, 120)}
+                      {r.ai_summary && r.ai_summary.length > 120 && (
+                        <>
+                          {expandedIds.has(r.id) ? (
+                            <button
+                              className={styles.readMoreLink}
+                              onClick={() => toggleExpand(r.id)}
+                              aria-label="Show less summary"
+                            >
+                              &nbsp;Show less
+                            </button>
+                          ) : (
+                            <button
+                              className={styles.readMoreLink}
+                              onClick={() => toggleExpand(r.id)}
+                              aria-label="Read more summary"
+                            >
+                              &nbsp;Read more
+                            </button>
+                          )}
+                        </>
+                      )}
                     </p>
                   </td>
                   <td>
                     <p style={{ fontSize: "0.9em", color: "#475569" }}>
-                      {r.ai_recommended_actions?.substring(0, 80)}
-                      {r.ai_recommended_actions?.length > 80 ? "..." : ""}
+                      {expandedIds.has(`a${r.id}`)
+                        ? r.ai_recommended_actions
+                        : r.ai_recommended_actions?.substring(0, 120)}
+                      {r.ai_recommended_actions && r.ai_recommended_actions.length > 120 && (
+                        <>
+                          {expandedIds.has(`a${r.id}`) ? (
+                            <button
+                              className={styles.readMoreLink}
+                              onClick={() => toggleExpand(`a${r.id}`)}
+                              aria-label="Show less actions"
+                            >
+                              &nbsp;Show less
+                            </button>
+                          ) : (
+                            <button
+                              className={styles.readMoreLink}
+                              onClick={() => toggleExpand(`a${r.id}`)}
+                              aria-label="Read more actions"
+                            >
+                              &nbsp;Read more
+                            </button>
+                          )}
+                        </>
+                      )}
                     </p>
                   </td>
                 </tr>

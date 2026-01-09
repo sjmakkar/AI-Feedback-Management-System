@@ -285,6 +285,20 @@
   background: linear-gradient(135deg, var(--error) 0%, #dc2626 100%);
 }
 
+.readMoreLink {
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 6px;
+  padding: 0;
+}
+
+.readMoreLink:hover {
+  text-decoration: underline;
+}
+
 /* Loading State */
 .loadingContainer {
   display: flex;
