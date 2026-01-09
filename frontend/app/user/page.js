@@ -3,7 +3,7 @@
 import { useState } from "react";
 import styles from "../styles.module.css";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
 
 export default function UserFeedback() {
   const [rating, setRating] = useState(5);
@@ -14,7 +14,6 @@ export default function UserFeedback() {
   const [submitted, setSubmitted] = useState(false);
 
   const submitReview = async () => {
-    // Validation
     if (!review.trim()) {
       setError("Please enter a review");
       return;
@@ -54,66 +53,86 @@ export default function UserFeedback() {
 
   return (
     <main className={styles.mainContainer}>
-      <h1 className={styles.heading}>User Feedback</h1>
+      <h1 className={styles.heading}>Share Your Feedback</h1>
+      <p className={styles.subheading}>Help us improve by sharing your experience</p>
 
-      <div className={styles.formGroup}>
-        <label htmlFor="rating" className={styles.label}>
-          Rating:
-        </label>
-        <select
-          id="rating"
-          value={rating}
-          onChange={(e) => setRating(Number(e.target.value))}
-          className={styles.select}
-          aria-label="Rating selection"
-          disabled={loading}
+      <div className={styles.card}>
+        <div className={styles.ratingGroup}>
+          <label className={styles.label}>How would you rate your experience?</label>
+          <div className={styles.ratingContainer}>
+            {[1, 2, 3, 4, 5].map((r) => (
+              <button
+                key={r}
+                className={`${styles.star} ${rating === r ? styles.active : ""}`}
+                onClick={() => setRating(r)}
+                disabled={loading}
+                aria-label={`Rate ${r} stars`}
+                aria-pressed={rating === r}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+          <p style={{ marginTop: "8px", color: "#64748b", fontSize: "0.9em" }}>
+            {rating === 1 && "Poor"}
+            {rating === 2 && "Fair"}
+            {rating === 3 && "Good"}
+            {rating === 4 && "Very Good"}
+            {rating === 5 && "Excellent"}
+          </p>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="review" className={styles.label}>
+            Tell us more about your experience
+          </label>
+          <textarea
+            id="review"
+            className={styles.textarea}
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+            placeholder="Share what went well or what we can improve..."
+            aria-label="Review text area"
+            disabled={loading}
+          />
+        </div>
+
+        <button
+          onClick={submitReview}
+          disabled={loading || !review.trim()}
+          className={styles.button}
+          aria-busy={loading}
         >
-          {[1, 2, 3, 4, 5].map((r) => (
-            <option key={r} value={r}>
-              {r} Star{r !== 1 ? "s" : ""}
-            </option>
-          ))}
-        </select>
+          {loading ? (
+            <>
+              <span className={styles.spinner} style={{ width: "16px", height: "16px" }}></span>
+              Submitting...
+            </>
+          ) : (
+            "✓ Submit Feedback"
+          )}
+        </button>
+
+        {error && (
+          <div className={styles.errorAlert} role="alert">
+            <span className={styles.alertIcon}>⚠️</span>
+            <div>
+              <div className={styles.alertTitle}>Error</div>
+              <p>{error}</p>
+            </div>
+          </div>
+        )}
+
+        {submitted && response && (
+          <div className={styles.successAlert} role="alert">
+            <span className={styles.alertIcon}>✨</span>
+            <div>
+              <div className={styles.alertTitle}>AI Response</div>
+              <p>{response}</p>
+            </div>
+          </div>
+        )}
       </div>
-
-      <div className={styles.formGroup}>
-        <label htmlFor="review" className={styles.label}>
-          Review:
-        </label>
-        <textarea
-          id="review"
-          rows="5"
-          className={styles.textarea}
-          value={review}
-          onChange={(e) => setReview(e.target.value)}
-          placeholder="Share your feedback..."
-          aria-label="Review text area"
-          disabled={loading}
-        />
-      </div>
-
-      <button
-        onClick={submitReview}
-        disabled={loading || !review.trim()}
-        className={styles.button}
-        aria-busy={loading}
-      >
-        {loading ? "Submitting..." : "Submit"}
-      </button>
-
-      {submitted && response && (
-        <div className={styles.successAlert} role="alert">
-          <div className={styles.alertTitle}>✓ AI Response:</div>
-          <p>{response}</p>
-        </div>
-      )}
-
-      {error && (
-        <div className={styles.errorAlert} role="alert">
-          <div className={styles.alertTitle}>⚠ Error:</div>
-          <p>{error}</p>
-        </div>
-      )}
     </main>
   );
 }
