@@ -143,4 +143,7 @@ export default function AdminDashboard() {
               ))}
             </tbody>
           </table>
-        </>
+        </>      )}
+    </main>
+  );
+}
