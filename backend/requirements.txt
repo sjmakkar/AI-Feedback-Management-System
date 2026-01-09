@@ -1,7 +1,6 @@
 fastapi
-uvicorn
-pydantic
+uvicorn[standard]
 sqlalchemy
 psycopg2-binary
-google-generativeai
 python-dotenv
+google-genai

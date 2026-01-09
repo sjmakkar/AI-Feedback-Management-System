@@ -5,18 +5,25 @@ from db import SessionLocal, engine
 from models import Review, Base
 from llm import generate_ai_outputs
 import json
+import os
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+# Read allowed frontend origins from env var (comma-separated). If not set, allow all origins.
+raw_origins = os.getenv("FRONTEND_ORIGINS")
+
+if not raw_origins:
+    origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[raw_origins, "https://aifeedbackfe.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 @app.post("/submit-review", response_model=ReviewResponse)

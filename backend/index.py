@@ -1,6 +1,5 @@
 """ASGI entry point for Vercel serverless deployment"""
-import sys
 from app import app
 
-# For Vercel serverless
+# Vercel serverless handler
 __all__ = ["app"]
