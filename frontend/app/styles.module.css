@@ -1,0 +1,132 @@
+/* Page Layouts */
+.mainContainer {
+  padding: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.adminContainer {
+  padding: 40px;
+}
+
+/* Headings */
+.heading {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Forms */
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.select,
+.textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #0070f3;
+  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.1);
+}
+
+/* Buttons */
+.button {
+  padding: 0.75rem 1.5rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #0051b3;
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Alerts */
+.successAlert {
+  background-color: #e6fffa;
+  border: 1px solid #00d9d9;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.errorAlert {
+  background-color: #ffe6e6;
+  border: 1px solid #ff6b6b;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.alertTitle {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table thead {
+  background-color: #f5f5f5;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  font-weight: bold;
+  background-color: #f5f5f5;
+}
+
+.table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+/* Loading State */
+.loadingText {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.errorText {
+  color: #d32f2f;
+  margin-top: 0.5rem;
+}
